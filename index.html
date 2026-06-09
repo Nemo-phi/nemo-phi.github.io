@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quyi Le — Applied Mathematics</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,18..72,400;0,18..72,500;1,18..72,400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== 配色与变量:想换颜色改这里 ===== */
+    :root {
+      --bg: #FCFCFB;
+      --ink: #1C1C1A;
+      --muted: #6B6B66;
+      --accent: #2E4E6E;
+      --accent-soft: #E8EDF2;
+      --line: #E6E5E0;
+      --maxw: 820px;          /* 整体宽度,从 720 提到 820 */
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; background: var(--bg); color: var(--ink);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-size: 17px; line-height: 1.65; -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 72px 24px 96px; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+    /* ===== 页头 ===== */
+    header { display: flex; align-items: center; gap: 28px; margin-bottom: 56px; }
+    .avatar {
+      width: 104px; height: 104px; border-radius: 50%; object-fit: cover;
+      /* object-position 控制照片在圆框里的可见区域。
+         第二个值越小越偏上(头发不被切),越大越偏下。
+         头发还被切就把 20% 改小(如 10%),下巴被切就改大。 */
+      object-position: 50% 18%;
+      flex-shrink: 0; background: var(--accent-soft); border: 1px solid var(--line);
+    }
+    .name {
+      font-family: 'Newsreader', serif; font-size: 38px; font-weight: 500;
+      line-height: 1.1; margin: 0 0 6px; letter-spacing: -0.01em;
+    }
+    .tagline { color: var(--muted); margin: 0 0 14px; font-size: 16px; }
+    .links { display: flex; flex-wrap: wrap; gap: 16px; font-size: 15px; }
+
+    /* ===== 板块通用 ===== */
+    section { margin-bottom: 44px; }
+    .eyebrow {
+      font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--accent); margin: 0 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--line);
+    }
+    section p { margin: 0 0 14px; }
+    section p:last-child { margin-bottom: 0; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; }
+    .tag {
+      background: var(--accent-soft); color: var(--accent);
+      padding: 5px 13px; border-radius: 999px; font-size: 14px; font-weight: 500;
+    }
+
+    .entry { margin-bottom: 22px; }
+    .entry:last-child { margin-bottom: 0; }
+    .entry .top { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .entry .role { font-weight: 600; }
+    .entry .date { color: var(--muted); font-size: 15px; white-space: nowrap; }
+    .entry .org { color: var(--muted); }
+    .entry ul { margin: 8px 0 0; padding-left: 20px; }
+    .entry li { margin-bottom: 4px; }
+
+    /* 学校下的子项(如 SGY / CFMTC):左竖线 + 缩写标题 + 一行说明 */
+    .subitems { margin-top: 10px; padding-left: 16px; border-left: 2px solid var(--line); display: flex; flex-direction: column; gap: 10px; }
+    .subitem .abbr { font-weight: 600; font-size: 15px; }
+    .subitem-detail { color: var(--muted); font-size: 15px; margin-top: 2px; }
+
+    .awards { list-style: none; padding: 0; margin: 0; }
+    .awards li { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 10px; }
+    .awards .date { color: var(--muted); font-size: 15px; white-space: nowrap; }
+
+    .skills-row { display: flex; gap: 12px; margin-bottom: 8px; }
+    .skills-row .k { font-weight: 600; min-width: 110px; }
+
+    footer {
+      margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--line);
+      color: var(--muted); font-size: 14px;
+    }
+
+    @media (max-width: 560px) {
+      .wrap { padding: 48px 20px 72px; }
+      header { flex-direction: column; align-items: flex-start; gap: 18px; }
+      .name { font-size: 32px; }
+      .skills-row { flex-direction: column; gap: 2px; }
+      .skills-row .k { min-width: 0; }
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .wrap > * { animation: rise .6s ease both; }
+      .wrap > *:nth-child(2) { animation-delay: .05s; }
+      .wrap > *:nth-child(3) { animation-delay: .10s; }
+      .wrap > *:nth-child(4) { animation-delay: .15s; }
+      @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- ============ 页头 ============ -->
+    <header>
+      <!-- 换头像:把照片(如 photo.jpg)放进同一文件夹,然后写 src="photo.jpg" -->
+      <img class="avatar" src="photo.jpg" alt="Quyi Le">
+      <div>
+        <h1 class="name">Quyi Le</h1>
+        <p class="tagline">Master student in Applied Mathematics · Université Grenoble Alpes</p>
+        <div class="links">
+          <a href="mailto:quyi_le@outlook.com">Email</a>
+          <a href="cv.pdf">CV</a>
+          <a href="https://github.com/Nemo-phi">GitHub</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ About ============ -->
+    <section>
+      <h2 class="eyebrow">About</h2>
+      <p>I am a second-year master's student in Applied Mathematics at Université Grenoble Alpes. I completed my B.Sc. in Mathematics and Applied Mathematics at the University of Science and Technology of China (USTC), where I studied in the China–France Mathematics Talents Class of the School of the Gifted Young.</p>
+      <p>My research lies at the intersection of optimization and machine learning, focusing on algorithms for optimization methods for large-scale learning. I am drawn to problems where rigorous mathematics meets practical computation.</p>
+    </section>
+
+    <!-- ============ Research Interests ============ -->
+    <section>
+      <h2 class="eyebrow">Research Interests</h2>
+      <div class="tags">
+        <span class="tag">Numerical Algorithms</span>
+        <span class="tag">Optimization for Machine Learning</span>
+        <span class="tag">Stochastic Optimization</span>
+      </div>
+    </section>
+
+    <!-- ============ Education ============ -->
+    <section>
+      <h2 class="eyebrow">Education</h2>
+      <div class="entry">
+        <div class="top">
+          <span class="role">M.Sc. in Applied Mathematics</span>
+          <span class="date">Sep 2025 – Expected 2027</span>
+        </div>
+        <div class="org">Université Grenoble Alpes, France</div>
+      </div>
+      <div class="entry">
+        <div class="top">
+          <span class="role">B.Sc. in Mathematics and Applied Mathematics</span>
+          <span class="date">Sep 2022 – Jun 2025</span>
+        </div>
+        <div class="org">University of Science and Technology of China (USTC)</div>
+        <div class="subitems">
+          <div class="subitem">
+            <a class="abbr" href="https://en.scgy.ustc.edu.cn/" target="_blank" rel="noopener">SGY Website</a>
+            <div class="subitem-detail">School of the Gifted Young — USTC's honors program, founded in 1978 on the proposal of Nobel laureate Tsung-Dao Lee to admit exceptionally gifted students from across China.</div>
+          </div>
+          <div class="subitem">
+            <a class="abbr" href="https://cfmath.ustc.edu.cn/2019/1202/c19064a406921/page.htm" target="_blank" rel="noopener">CFMTC Website</a>
+            <div class="subitem-detail">China–France Mathematics Talents Class — a selective four-year program (about 25 students per year) run jointly with French mathematical institutions, preparing top students for doctoral study in France.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ Research Experience ============ -->
+    <section>
+      <h2 class="eyebrow">Research Experience</h2>
+      <div class="entry">
+        <div class="top">
+          <span class="role">Physics-Informed Neural Networks with Domain Decomposition</span>
+          <span class="date">Dec 2024 – May 2025</span>
+        </div>
+        <div class="org">USTC · Advisor: Prof. Tao Xiong · Hefei, China</div>
+        <ul>
+          <li>Developed PINN-based solvers for benchmark partial differential equations.</li>
+          <li>Applied domain decomposition to accelerate training and improve the scalability of PINNs.</li>
+          <li>Studied hyperparameter selection strategies to improve solution accuracy.</li>
+        </ul>
+      </div>
+      <div class="entry">
+        <div class="top">
+          <span class="role">Stochastic Optimization for Large-Scale Machine Learning</span>
+          <span class="date">Apr 2026 – Present</span>
+        </div>
+        <div class="org">Linköping University · Advisor: Asst. Prof. Chuan He · Linköping, Sweden</div>
+        <ul>
+          <li>Benchmarking a proposed SGD with Extrapolated Momentum method against standard SGD with momentum (SGDM).</li>
+          <li>Developing adaptive variants and evaluating them on large language model training.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Teaching ============ -->
+    <section>
+      <h2 class="eyebrow">Teaching</h2>
+      <div class="entry">
+        <div class="top">
+          <span class="role">Teaching Assistant</span>
+          <span class="date">Sep 2024 – Jun 2025</span>
+        </div>
+        <div class="org">University of Science and Technology of China</div>
+        <ul>
+          <li>Supported Mathematical Analysis B1 (120 students) and Atomic Physics (30 students) within a teaching team.</li>
+          <li>Received a student evaluation score of 4.7 / 5.0.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Awards & Honors ============ -->
+    <section>
+      <h2 class="eyebrow">Awards &amp; Honors</h2>
+      <ul class="awards">
+        <li><span>ICPC 2024 Asia Regional Contest (Shanghai) — Bronze Prize</span><span class="date">Nov 2024</span></li>
+        <li><span>15th National College Mathematics Competition — Third Prize</span><span class="date">Nov 2023</span></li>
+        <li><span>2023 Anhui Robotics Competition (Programming Track) — First Prize</span><span class="date">May 2023</span></li>
+        <li><span>USTC Freshman Scholarship — Silver Prize</span><span class="date">Oct 2022</span></li>
+      </ul>
+    </section>
+
+    <!-- ============ Skills ============ -->
+    <section>
+      <h2 class="eyebrow">Skills</h2>
+      <div class="skills-row"><span class="k">Programming</span><span>Python (JAX, PyTorch), C++, C, MATLAB</span></div>
+      <div class="skills-row"><span class="k">Languages</span><span>English (C2), Chinese (Native), French (B1)</span></div>
+    </section>
+
+    <!-- ============ Contact ============ -->
+    <section>
+      <h2 class="eyebrow">Contact</h2>
+      <p>Feel free to reach me at <a href="mailto:quyi_le@outlook.com">quyi_le@outlook.com</a> · Grenoble, France</p>
+    </section>
+
+    <footer>
+        © 2026 Quyi Le · Last updated June 2026
+    </footer>
+
+  </div>
+</body>
+</html>
